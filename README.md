@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # e-commerce
 
 
@@ -93,6 +94,8 @@ For open source projects, say how it is licensed.
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
 =======
+=======
+>>>>>>> fa8be6c2749c5f1ce7bbd5465f38a0dc277a75f9
 # ECommerceApp
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.0.
@@ -152,4 +155,7 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+<<<<<<< HEAD
 >>>>>>> fa8be6c (first commit)
+=======
+>>>>>>> fa8be6c2749c5f1ce7bbd5465f38a0dc277a75f9
