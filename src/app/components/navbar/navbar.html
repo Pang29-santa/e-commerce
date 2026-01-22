@@ -1,0 +1,33 @@
+<nav *ngIf="showNavbar && authService.isLoggedIn()" class="navbar">
+  <div class="nav-container">
+    <a routerLink="/products" class="nav-brand">🛍️ E-Shop</a>
+    <ul class="nav-links">
+      <li><a routerLink="/products" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Products</a></li>
+      <li>
+        <a routerLink="/cart" routerLinkActive="active" class="cart-link">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 3H4.5L6.5 13H16.5L18.5 6H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="7.5" cy="16.5" r="1.5" fill="currentColor"/>
+            <circle cx="15.5" cy="16.5" r="1.5" fill="currentColor"/>
+          </svg>
+          Cart
+          <span *ngIf="cartItemCount > 0" class="cart-badge">{{ cartItemCount }}</span>
+        </a>
+      </li>
+
+      <li>
+        <button (click)="toggleTheme()" class="theme-toggle-btn" [attr.aria-label]="(theme$ | async) === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'">
+          <ng-container *ngIf="(theme$ | async) === 'dark'; else moonIcon">
+            <!-- Sun Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="theme-icon sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          </ng-container>
+          <ng-template #moonIcon>
+            <!-- Moon Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="theme-icon moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </ng-template>
+        </button>
+      </li>
+      <li><button (click)="logout()" class="logout-btn">Logout</button></li>
+    </ul>
+  </div>
+</nav>

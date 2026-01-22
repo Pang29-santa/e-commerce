@@ -1,0 +1,120 @@
+<div class="container">
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+    <button class="btn-back" (click)="goBack()">Back to Products</button>
+  </div>
+
+  <div *ngIf="!loading && !error && product" class="product-detail">
+    <!-- Back Button -->
+    <button class="btn-back-top" (click)="goBack()">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to Products
+    </button>
+
+    <div class="product-content">
+      <!-- Image Gallery -->
+      <div class="image-section">
+        <div class="main-image">
+          <img 
+            [src]="getProductImage(product.images[selectedImageIndex])" 
+            [alt]="product.title"
+            (error)="onImageError($event)">
+        </div>
+        <div class="thumbnail-gallery" *ngIf="product.images.length > 1">
+          <div 
+            *ngFor="let image of product.images; let i = index" 
+            class="thumbnail"
+            [class.active]="i === selectedImageIndex"
+            (click)="selectImage(i)">
+            <img 
+              [src]="getProductImage(image)" 
+              [alt]="product.title + ' - Image ' + (i + 1)"
+              (error)="onImageError($event)">
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="info-section">
+        <div class="category-badge">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2 4.5C2 3.67157 2.67157 3 3.5 3H5.5C6.32843 3 7 3.67157 7 4.5V6.5C7 7.32843 6.32843 8 5.5 8H3.5C2.67157 8 2 7.32843 2 6.5V4.5Z" fill="currentColor"/>
+            <path d="M9 4.5C9 3.67157 9.67157 3 10.5 3H12.5C13.3284 3 14 3.67157 14 4.5V6.5C14 7.32843 13.3284 8 12.5 8H10.5C9.67157 8 9 7.32843 9 6.5V4.5Z" fill="currentColor"/>
+            <path d="M2 10.5C2 9.67157 2.67157 9 3.5 9H5.5C6.32843 9 7 9.67157 7 10.5V12.5C7 13.3284 6.32843 14 5.5 14H3.5C2.67157 14 2 13.3284 2 12.5V10.5Z" fill="currentColor"/>
+            <path d="M9 10.5C9 9.67157 9.67157 9 10.5 9H12.5C13.3284 9 14 9.67157 14 10.5V12.5C14 13.3284 13.3284 14 12.5 14H10.5C9.67157 14 9 13.3284 9 12.5V10.5Z" fill="currentColor"/>
+          </svg>
+          {{ product.category }}
+        </div>
+
+        <h1 class="product-title">{{ product.title }}</h1>
+        <div class="brand-info" *ngIf="product.brand">Brand: {{ product.brand }} | Rating: {{ product.rating }} ⭐</div>
+
+        <div class="price-section">
+          <span class="price">${{ product.price }}</span>
+          <span class="discount" *ngIf="product.discountPercentage">-{{ product.discountPercentage }}%</span>
+          <span class="price-label">USD</span>
+        </div>
+
+        <div class="description-section">
+          <h2>Description</h2>
+          <p>{{ product.description }}</p>
+        </div>
+
+        <!-- AI Insight Section -->
+        <div class="ai-insight-section">
+          <div class="ai-header">
+            <span class="ai-badge">AI</span>
+            <h3>AI Product Insights</h3>
+          </div>
+          
+          <div *ngIf="aiLoading" class="ai-loading-placeholder">
+            <div class="shimmer"></div>
+            <div class="shimmer"></div>
+            <div class="shimmer short"></div>
+          </div>
+          
+          <div *ngIf="!aiLoading && aiInsight" class="insight-content">
+            {{ aiInsight }}
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn-primary" (click)="addToCart()">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M3 3H4.5L6.5 13H16.5L18.5 6H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="7.5" cy="16.5" r="1.5" fill="currentColor"/>
+              <circle cx="15.5" cy="16.5" r="1.5" fill="currentColor"/>
+            </svg>
+            <span>Add to Cart</span>
+          </button>
+          <button class="btn-secondary" (click)="goToCart()">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M3 3H4.5L6.5 13H16.5L18.5 6H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="7.5" cy="16.5" r="1.5" fill="currentColor"/>
+              <circle cx="15.5" cy="16.5" r="1.5" fill="currentColor"/>
+            </svg>
+            <span>View Cart</span>
+          </button>
+        </div>
+
+        <div class="product-meta">
+          <div class="meta-item">
+            <span class="meta-label">Product ID:</span>
+            <span class="meta-value">#{{ product.id }}</span>
+          </div>
+          <div class="meta-item" *ngIf="product.stock">
+            <span class="meta-label">Stock:</span>
+            <span class="meta-value">{{ product.stock }} items in stock</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,373 @@
+/* Chat Trigger Button */
+.chat-trigger {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 1000;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-trigger:hover {
+  transform: scale(1.1) translateY(-2px);
+}
+
+.chat-trigger.hidden {
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bot-avatar-trigger {
+  width: 50px;
+  height: 50px;
+  background: var(--card-bg); /* Theme aware */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  border: 2px solid var(--primary-color); /* Brand Color */
+}
+
+.lottie-container {
+  width: 60px;
+  height: 60px;
+  transform: scale(1.5);
+}
+
+.trigger-label {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #ef4444;
+  color: white;
+  font-size: 0.75rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--bg-primary);
+}
+
+/* Chat Window */
+.chat-window {
+  position: fixed;
+  bottom: 6rem;
+  right: 2rem;
+  width: 380px;
+  height: 550px;
+  background: var(--card-bg); /* Theme aware */
+  border-radius: 24px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 999;
+  transform-origin: bottom right;
+  transform: scale(0);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  border: 1px solid var(--border-color); /* Theme aware */
+}
+
+.chat-window.open {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Header */
+.chat-header {
+  background: var(--primary-color); /* Match global Orange theme */
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #1e293b; /* Keep text dark on Orange for contrast, or use white if orange is dark enough. Usually black on orange is better for a11y */
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+}
+
+/* Override text color in header if needed for specific theme logic, but hardcoded dark text on orange is safe for now */
+[data-theme="dark"] .chat-header {
+  color: #0f172a; /* Dark text on orange in dark mode */
+}
+
+.header-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.bot-avatar-small {
+  width: 42px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  overflow: hidden;
+}
+
+.lottie-container-small {
+  width: 40px;
+  height: 40px;
+  transform: scale(1.6);
+}
+
+.header-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #16a34a;
+  border-radius: 50%;
+  margin-right: 6px;
+  box-shadow: 0 0 10px rgba(22, 163, 74, 0.8);
+}
+
+.status-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  padding: 4px;
+}
+
+.close-btn:hover {
+  opacity: 1;
+}
+
+/* Messages Area */
+.messages-container {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background: var(--bg-primary); /* Theme aware */
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  scroll-behavior: smooth;
+}
+
+.message-wrapper {
+  display: flex;
+  gap: 0.75rem;
+  max-width: 88%;
+  align-items: flex-end;
+}
+
+.message-wrapper.user-message {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--bg-tertiary);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.lottie-container-avatar {
+  width: 35px;
+  height: 35px;
+  transform: scale(1.6);
+}
+
+.bubble {
+  padding: 0.9rem 1.1rem;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  position: relative;
+  word-wrap: break-word;
+}
+
+.bot-message .bubble:not(.bot-thinking) {
+  background: var(--bg-secondary); /* Theme aware */
+  color: var(--text-primary); /* Theme aware */
+  border-bottom-left-radius: 4px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}
+
+.bot-thinking {
+  background: var(--bg-secondary);
+  padding: 1rem 1.25rem;
+  border-radius: 20px;
+  border-bottom-left-radius: 4px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}
+
+.user-message .bubble {
+  background: var(--primary-color); /* Use Brand Orange */
+  color: #1e293b; /* Dark text on Orange usually looks best/brand compliant */
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 4px 10px rgba(255, 174, 0, 0.3); /* Soft orange shadow */
+}
+
+/* Specific Check for dark mode user bubble if needed */
+[data-theme="dark"] .user-message .bubble {
+  color: #0f172a;
+}
+
+.timestamp {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* Product Cards in Chat */
+.product-cards {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.mini-product-card {
+  background: var(--bg-secondary);
+  padding: 0.5rem;
+  border-radius: 12px;
+  display: flex;
+  gap: 0.8rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+  border: 1px solid var(--border-color);
+}
+
+.mini-product-card:hover {
+  transform: translateX(4px);
+  border-color: var(--primary-color);
+}
+
+.mini-product-card img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.mini-card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mini-card-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.mini-card-price {
+  font-size: 0.85rem;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+/* Input Area */
+.input-area {
+  padding: 1.25rem 1.5rem;
+  background: var(--card-bg); /* Theme aware */
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.input-area input {
+  flex: 1;
+  border: 1px solid var(--input-border);
+  border-radius: 16px;
+  padding: 0.8rem 1.2rem;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s;
+  background: var(--bg-primary); /* Slightly distinct from card bg */
+  color: var(--text-primary);
+}
+
+.input-area input:focus {
+  border-color: var(--primary-color);
+  background: var(--bg-secondary);
+  box-shadow: 0 0 0 3px rgba(255, 174, 0, 0.15); /* Orange ring */
+}
+
+.send-btn {
+  background: var(--primary-color);
+  color: #1e293b; /* Dark text for contrast */
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.send-btn:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 5px 15px rgba(255, 174, 0, 0.3);
+}
+
+.send-btn:disabled {
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+

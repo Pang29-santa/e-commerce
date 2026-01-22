@@ -1,0 +1,78 @@
+/* Global Vars & Theme */
+:root {
+  /* Light Mode Palette */
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #e2e8f0;
+  
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  
+  --border-color: #e2e8f0;
+  
+  /* Orange Theme Palette */
+  --primary-color: #ffae00; /* Amber 500 */
+  --primary-hover: #e09900;
+  
+  --secondary-color: #667eea; /* Indigo 500 for variety/accents */
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  
+  --card-bg: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
+  
+  --heading-gradient: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  
+  --navbar-bg: rgba(30, 41, 59, 0.98);
+  --navbar-hover-bg: rgba(255, 255, 255, 0.15);
+  --navbar-border: transparent;
+}
+
+[data-theme="dark"] {
+  /* Dark Mode Palette */
+  --bg-primary: #0f172a; /* Slate 900 */
+  --bg-secondary: #1e293b; /* Slate 800 */
+  --bg-tertiary: #334155; /* Slate 700 */
+  
+  --text-primary: #f8fafc; /* Slate 50 */
+  --text-secondary: #cbd5e1; /* Slate 300 */
+  --text-muted: #64748b; /* Slate 500 */
+  
+  --border-color: #334155;
+  
+  --primary-color: #ffb81c; /* Lighter Orange for Dark Mode */
+  --primary-hover: #ffcf70;
+  
+  --secondary-color: #818cf8; /* Indigo 400 */
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+  
+  --card-bg: #1e293b;
+  --input-bg: #0f172a;
+  --input-border: #475569;
+  
+  --heading-gradient: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%);
+  
+  --navbar-bg: rgba(15, 23, 42, 0.75);
+  --navbar-hover-bg: rgba(255, 255, 255, 0.1);
+  --navbar-border: rgba(255, 255, 255, 0.05);
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Common utility classes relying on variables */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}

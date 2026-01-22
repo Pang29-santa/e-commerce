@@ -1,0 +1,102 @@
+<div class="container">
+  <h1>🛒 Shopping Cart</h1>
+
+  <!-- Empty Cart -->
+  <div *ngIf="cart.totalItems === 0" class="empty-cart">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <circle cx="60" cy="60" r="50" stroke="#ddd" stroke-width="4"/>
+      <path d="M40 50L50 70L80 40" stroke="#ddd" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h2>Your cart is empty</h2>
+    <p>No items in cart yet. Start shopping now!</p>
+    <button class="btn-primary" (click)="continueShopping()">Start Shopping</button>
+  </div>
+
+  <!-- Cart Items -->
+  <div *ngIf="cart.totalItems > 0" class="cart-content">
+    <!-- Items List -->
+    <div class="cart-items">
+      <div *ngFor="let item of cart.items" class="cart-item">
+        <div class="item-image" (click)="viewProduct(item.product.id)">
+          <img 
+            [src]="getProductImage(item.product.thumbnail)" 
+            [alt]="item.product.title"
+            (error)="onImageError($event)">
+        </div>
+
+        <div class="item-details">
+          <h3 (click)="viewProduct(item.product.id)">{{ item.product.title }}</h3>
+          <p class="item-category">{{ item.product.category }}</p>
+          <p class="item-price">${{ item.product.price }} <span>x {{ item.quantity }}</span></p>
+        </div>
+
+        <div class="item-actions">
+          <div class="quantity-control">
+            <button class="btn-quantity" (click)="decreaseQuantity(item)">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M4 8H12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <span class="quantity">{{ item.quantity }}</span>
+            <button class="btn-quantity" (click)="increaseQuantity(item)">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 4V12M4 8H12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="item-total">${{ (item.product.price * item.quantity).toFixed(2) }}</div>
+
+          <button class="btn-remove" (click)="removeItem(item)" title="Remove item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M6 6L14 14M6 14L14 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="cart-summary">
+      <h2>Order Summary</h2>
+      
+      <div class="summary-row">
+        <span>Total Items:</span>
+        <span>{{ cart.totalItems }} items</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Subtotal:</span>
+        <span class="subtotal">${{ cart.totalPrice.toFixed(2) }}</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Shipping:</span>
+        <span class="shipping">Free</span>
+      </div>
+
+      <div class="summary-divider"></div>
+
+      <div class="summary-row total">
+        <span>Total:</span>
+        <span>${{ cart.totalPrice.toFixed(2) }}</span>
+      </div>
+
+      <button class="btn-checkout" (click)="checkout()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        Proceed to Checkout
+      </button>
+
+      <button class="btn-continue" (click)="continueShopping()">
+        ← Continue Shopping
+      </button>
+
+      <button class="btn-clear" (click)="clearCart()">
+        Clear Cart
+      </button>
+    </div>
+  </div>
+</div>

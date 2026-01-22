@@ -1,0 +1,82 @@
+<!-- Chat Button / Trigger -->
+<button class="chat-trigger" [class.hidden]="isOpen" (click)="toggleChat()">
+    <div #triggerLottie class="lottie-container"></div>
+</button>
+
+<!-- Chat Window -->
+<div class="chat-window" [class.open]="isOpen">
+  <!-- Header -->
+  <div class="chat-header" (click)="toggleChat()">
+    <div class="header-info">
+      <div class="bot-avatar-small">
+        <div #headerLottie class="lottie-container-small"></div>
+      </div>
+      <div>
+        <h3>AI Assistant</h3>
+        <span class="status-dot"></span> <span class="status-text">Online</span>
+      </div>
+    </div>
+    <button class="close-btn" (click)="toggleChat(); $event.stopPropagation()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Messages Area -->
+  <div class="messages-container" #scrollContainer>
+    <div *ngFor="let msg of messages" class="message-wrapper" [ngClass]="{'user-message': msg.sender === 'user', 'bot-message': msg.sender === 'bot'}">
+      
+      <!-- Bot Avatar for bot messages -->
+      <div class="message-avatar" *ngIf="msg.sender === 'bot'">
+        <div #botAvatarLottie class="lottie-container-avatar"></div>
+      </div>
+      
+      <div class="message-content">
+        <div class="bubble" *ngIf="!msg.isThinking">
+          {{ msg.text }}
+        </div>
+
+        <!-- Thinking / Typing Indicator -->
+        <div class="bubble bot-thinking" *ngIf="msg.isThinking">
+          <div class="typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+        
+        <!-- Product Recommendation Cards -->
+        <div class="product-cards" *ngIf="msg.products && msg.products.length > 0">
+          <div class="mini-product-card" *ngFor="let product of msg.products" (click)="viewProduct(product.id)">
+            <img [src]="product.thumbnail" [alt]="product.title">
+            <div class="mini-card-info">
+              <div class="mini-card-title">{{ product.title }}</div>
+              <div class="mini-card-price">${{ product.price }}</div>
+            </div>
+          </div>
+        </div>
+
+        <span class="timestamp">{{ msg.timestamp | date:'shortTime' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input Area -->
+  <div class="input-area">
+    <input 
+      type="text" 
+      [(ngModel)]="userInput" 
+      (keyup.enter)="sendMessage()"
+      placeholder="พิมพ์ข้อความ... (เช่น 'หาเสื้อยืด')"
+      autocomplete="off"
+    >
+    <button class="send-btn" (click)="sendMessage()" [disabled]="!userInput.trim()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+<div class="container">
+  <div class="products-header">
+    <h1>
+      {{ currentCategory ? (currentCategory | titlecase) : 'All Products' }}
+    </h1>
+  </div>
+
+  <!-- Category Dropdown Filter -->
+  <div class="category-filter-container">
+    <div class="filter-group">
+      <label for="categoryFilter">Filter by Category:</label>
+      <div class="select-wrapper">
+        <select 
+          id="categoryFilter" 
+          [value]="currentCategory || ''" 
+          (change)="onCategoryChange($event)"
+          class="custom-select">
+          <option value="">All Categories</option>
+          <option *ngFor="let cat of categories" [value]="cat">
+            {{ cat | titlecase }}
+          </option>
+        </select>
+        <div class="select-arrow">
+          <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+            <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Category Loading Spinner (Small) -->
+    <div class="category-loading" *ngIf="categoriesLoading">
+      <div class="spinner-small"></div>
+    </div>
+  </div>
+  
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading products...</p>
+  </div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div *ngIf="!loading && !error">
+    <div class="product-grid">
+      <div *ngFor="let product of displayedProducts" class="product-card" (click)="viewProduct(product.id)">
+        <div class="image-wrapper">
+          <img 
+            [src]="getProductImage(product)" 
+            [alt]="product.title"
+            (error)="onImageError($event)">
+          <div class="category-badge">{{ product.category }}</div>
+        </div>
+        <div class="product-info">
+          <h3>{{ product.title }}</h3>
+          <div class="price-rating">
+            <p class="price">${{ product.price }}</p>
+            <div class="rating">⭐ {{ product.rating }}</div>
+          </div>
+          <p class="description">{{ product.description | slice:0:80 }}...</p>
+          <div class="card-actions">
+            <button class="btn-view" (click)="viewProduct(product.id); $event.stopPropagation()">Details</button>
+            <button class="btn-add-cart" (click)="addToCart(product); $event.stopPropagation()">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M3 3H4.5L6.5 13H16.5L18.5 6H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="7.5" cy="16.5" r="1.5" fill="currentColor"/>
+                <circle cx="15.5" cy="16.5" r="1.5" fill="currentColor"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button 
+        class="pagination-btn" 
+        [disabled]="currentPage === 1" 
+        (click)="changePage(currentPage - 1)">
+        &laquo;
+      </button>
+      
+      <button 
+        *ngFor="let page of [].constructor(totalPages); let i = index"
+        class="pagination-btn"
+        [class.active]="currentPage === i + 1"
+        (click)="changePage(i + 1)">
+        {{ i + 1 }}
+      </button>
+
+      <button 
+        class="pagination-btn" 
+        [disabled]="currentPage === totalPages" 
+        (click)="changePage(currentPage + 1)">
+        &raquo;
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+[33mโฏ[39m Building...
+[32mโ”[39m Building...
+Application bundle generation failed. [1.502 seconds] - 2026-01-20T10:59:43.923Z
+
+X [ERROR] NG6008: Component NavbarComponent is standalone, and cannot be declared in an NgModule. Did you mean to import it instead? [plugin angular-compiler]
+
+    src/app/app-module.ts:16:4:
+      16 โ”     NavbarComponent,
+         โ•ต     ~~~~~~~~~~~~~~~
+
+
+X [ERROR] NG6008: Component LoginComponent is standalone, and cannot be declared in an NgModule. Did you mean to import it instead? [plugin angular-compiler]
+
+    src/app/app-module.ts:17:4:
+      17 โ”     LoginComponent,
+         โ•ต     ~~~~~~~~~~~~~~
+
+
+X [ERROR] NG6008: Component ProductListComponent is standalone, and cannot be declared in an NgModule. Did you mean to import it instead? [plugin angular-compiler]
+
+    src/app/app-module.ts:18:4:
+      18 โ”     ProductListComponent,
+         โ•ต     ~~~~~~~~~~~~~~~~~~~~
+
+
+X [ERROR] NG6008: Component CategoryListComponent is standalone, and cannot be declared in an NgModule. Did you mean to import it instead? [plugin angular-compiler]
+
+    src/app/app-module.ts:19:4:
+      19 โ”     CategoryListComponent
+         โ•ต     ~~~~~~~~~~~~~~~~~~~~~
+
+
